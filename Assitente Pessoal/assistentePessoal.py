@@ -16,7 +16,7 @@ import pyautogui
 import winapps 
 
 global language
-language = 2
+language = 1
 listener = sr.Recognizer()
 engine = pyttsx3.init('sapi5')
 
@@ -47,8 +47,8 @@ def standby():
                     ouvirAlexo = listener.recognize_google(voice)
                     ouvirAlexo = ouvirAlexo.lower()
                     print(ouvirAlexo)
-                    if 'my guy' in ouvirAlexo:
-                        talk('ye')
+                    if 'turn on' in ouvirAlexo:
+                        talk('talk to me')
                         run_alexa()
                 if language == 2:
                     voice = listener.listen(source)
@@ -62,8 +62,7 @@ def standby():
             pass
 def abre_programa(nomePrograma):
     application = nomePrograma
-    """
-    FUNCIONA MAS PRECISA ARRUMAR ALGUNS DETALHES
+    """FUNCIONA MAS PRECISA ARRUMAR ALGUNS DETALHES
     Procura o nome do programa dado para ver se ele está instalado no pc mas
     tem programa que o launcher é Overwatch Launcher.exe e outros que é só Chrome.exe então faço a verificação para os dois casos
     não posso abrir qualquer .exe porque na pasta do app tem o desinstalador que é um .exe e ai não é pra rodar nesse caso
@@ -101,17 +100,16 @@ def take_command():
                     voice = listener.listen(source)
                     ouvirAlexo = listener.recognize_google(voice)
                     ouvirAlexo = ouvirAlexo.lower()
-                    #command = ouvirAlexo.replace('my guy', '')
+                    command = ouvirAlexo.replace('my guy', '')
                     print(ouvirAlexo)
                 if language == 2:
                     voice = listener.listen(source)
                     ouvirAlexo = listener.recognize_google(voice, language='pt-BR')
                     ouvirAlexo = ouvirAlexo.lower()
-                    #command = ouvirAlexo.replace('ativar', '')
+                    command = ouvirAlexo.replace('ativar', '')
                     print(ouvirAlexo)
         except:
             pass
-
     return command
 
 def run_alexa():
@@ -168,6 +166,19 @@ def run_alexa():
         elif 'start' in command:
             if 'unity' in command:
                 subprocess.Popen("C:\\Program Files\\Unity\\Hub\\Editor\\2019.4.17f1\\Editor\\Unity.exe")
+        elif 'update' in command:
+            if 'call of duty' in command:
+                command = "Modern Warfare"
+                abre_programa(command)
+                codAberto = None
+                while codAberto == None:
+                    codAberto = pyautogui.locateOnScreen('cod.png')
+                botaoUpdate = pyautogui.locateOnScreen('update_button_cod.png')
+                if(botaoUpdate != None):
+                    pyautogui.click(botaoUpdate)
+                    talk("updating")
+                else:
+                    talk('jogo já atualizado')
         else:
             talk('I did not get that')
     if language == 2:
