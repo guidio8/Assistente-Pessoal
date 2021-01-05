@@ -1,23 +1,8 @@
 # Assistente-Pessoal
  Projeto por diversão para automatizar algumas funções do computador com reconhecimento de voz
 
-## Bibliotecas Utilizadas
-- speech_recognition
-- pyttsx3
-- pywhatkit
-- datetime
-- wikipedia
-- sys
-- pyjokes
-- os
-- webbrowser
-- re
-- threading
-- time
-- googlesearch
-- subprocess
-- pyautogui
-- winapps 
+## Instalação
+    pip install -r requirements.txt
 
 ## Execução
     ~$ python assistentePessoal.py
