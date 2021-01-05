@@ -19,11 +19,14 @@ global language
 language = 2
 listener = sr.Recognizer()
 engine = pyttsx3.init('sapi5')
-"""escolhe o idioma do assistente"""
+
 def detect_language():
     global language
-    """por enquanto só tem 3 linguas 0 - homem ingles, 1 - mulher ingles, 2 - mulher portugues e eu deixo 2 como default
-    also eu tirei esses valores de uma funcao do pyttsx3 onde ele lista as voices que ele possui"""
+    """
+    escolhe o idioma do assistente
+    por enquanto só tem 3 linguas 0 - homem ingles, 1 - mulher ingles, 2 - mulher portugues e eu deixo 2 como default
+    also eu tirei esses valores de uma funcao do pyttsx3 onde ele lista as voices que ele possui
+    """
     language = 2
     novaLinguagem = input()
     if novaLinguagem == 'english':
@@ -57,16 +60,17 @@ def standby():
                         run_alexa()
         except:
             pass
-"""FUNCIONA MAS PRECISA ARRUMAR ALGUNS DETALHES"""
 def abre_programa(nomePrograma):
     application = nomePrograma
-    """procura o nome do programa dado para ver se ele está instalado no pc mas as vezes o programa não está na lista de apps instalados
-    also tem programas tipo o Unity que o caminho de instalação é none e ai não da pra abrir"""
+    """
+    FUNCIONA MAS PRECISA ARRUMAR ALGUNS DETALHES
+    Procura o nome do programa dado para ver se ele está instalado no pc mas
+    tem programa que o launcher é Overwatch Launcher.exe e outros que é só Chrome.exe então faço a verificação para os dois casos
+    não posso abrir qualquer .exe porque na pasta do app tem o desinstalador que é um .exe e ai não é pra rodar nesse caso
+    """
     for app in winapps.search_installed(application):
         application = str(app.install_location)
     
-    """tem programa que o launcher é Overwatch Launcher.exe e outros que é só Chrome.exe então faço a verificação para os dois casos
-    não posso abrir qualquer .exe porque na pasta do app tem o desinstalador que é um .exe e ai não é pra rodar nesse caso"""
     noLauncher = application+"\\"+nomePrograma
     noLauncher = noLauncher.replace("\\", "AUXILIAR")
     noLauncher = noLauncher.replace("AUXILIAR", "AUXILIAR\\")
@@ -237,8 +241,8 @@ def run_alexa():
                 else:
                     talk('jogo já atualizado')
         elif 'fechar' in command:#ainda não funciona 100%
-            """fecha a maior janela que também possui o X branco/cinza, precisa de mais imagens para verificação
-            consegue fechar o app da blizzard e o visual studio code por enquanto"""
+            #fecha a maior janela que também possui o X branco/cinza, precisa de mais imagens para verificação
+            #consegue fechar o app da blizzard e o visual studio code por enquanto
             pyautogui.click(pyautogui.locateCenterOnScreen('X.png', confidence=.55))
         else:
             talk('Eu não entendi, será que você poderia repetir?')
@@ -248,8 +252,10 @@ def talk(text):
     engine.say(text)
     engine.runAndWait()
 
-"""função para o futuro onde eu quero poder usar o teclado enquanto falo com o assistente"""
 def controle_teclado():
+    """
+    função para o futuro onde eu quero poder usar o teclado enquanto falo com o assistente
+    """
     global encerrarPrograma
     encerrarPrograma = 0
     encerrado = ''
