@@ -63,7 +63,8 @@
     Por enquanto só funciona com o Call of Duty Modern Warfare, o assistente abre o programa desejado 
     e compara a tela deste programa com as imagens fornecidas 
     (cod.png para saber se o launcher do jogo está aberto e 
-    update_button_cod.png para ver se existe o botão de update, em caso positivo para ambos, clica no botão de update)
+    update_button_cod.png para ver se existe o botão de update, em caso positivo para ambos, 
+    clica no botão de update)
 
 ### Fechar
     Precisa de mais imagens do botão de fechar, o assistente procura o botao "X.png" na tela 
