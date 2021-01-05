@@ -16,7 +16,7 @@ import pyautogui
 import winapps 
 
 global language
-language = -1
+language = 2
 listener = sr.Recognizer()
 engine = pyttsx3.init('sapi5')
 #escolhe o idioma do assistente
