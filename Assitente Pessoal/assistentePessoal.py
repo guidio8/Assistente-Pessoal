@@ -1,24 +1,21 @@
-import speech_recognition as sr
+import datetime
+import re
+import subprocess
+import threading
+import webbrowser
+import pyautogui
 import pyttsx3
 import pywhatkit
-import datetime
+import speech_recognition as sr
 import wikipedia
-import sys
-import pyjokes
-import os
-import webbrowser
-import re
-import threading
-import time
+import winapps
 from googlesearch import search
-import subprocess
-import pyautogui
-import winapps 
 
 global language
 language = 1
 listener = sr.Recognizer()
 engine = pyttsx3.init('sapi5')
+
 
 def detect_language():
     global language
@@ -33,6 +30,7 @@ def detect_language():
         language = 1
     elif novaLinguagem == 'english male':
         language = 0
+
 
 def standby():
     """fica ouvindo o mic mas não faz nada até reconhece a palavra de ativação"""
@@ -60,6 +58,8 @@ def standby():
                         run_alexa()
         except:
             pass
+
+
 def abre_programa(nomePrograma):
     application = nomePrograma
     """FUNCIONA MAS PRECISA ARRUMAR ALGUNS DETALHES
@@ -69,14 +69,14 @@ def abre_programa(nomePrograma):
     """
     for app in winapps.search_installed(application):
         application = str(app.install_location)
-    
-    noLauncher = application+"\\"+nomePrograma
+
+    noLauncher = application + "\\" + nomePrograma
     noLauncher = noLauncher.replace("\\", "AUXILIAR")
     noLauncher = noLauncher.replace("AUXILIAR", "AUXILIAR\\")
     noLauncher = noLauncher.replace("AUXILIAR", "\\")
 
-    nomeExecutavel = nomePrograma+" launcher.exe"
-    launcher = application + "\\"+nomeExecutavel
+    nomeExecutavel = nomePrograma + " launcher.exe"
+    launcher = application + "\\" + nomeExecutavel
     launcher = launcher.replace("\\", "AUXILIAR")
     launcher = launcher.replace("AUXILIAR", "AUXILIAR\\")
     launcher = launcher.replace("AUXILIAR", "\\")
@@ -112,9 +112,10 @@ def take_command():
             pass
     return command
 
+
 def run_alexa():
     command = take_command()
-    
+
     if language == 1:
         if 'play' in command:
             song = command.replace('play', '')
@@ -122,7 +123,7 @@ def run_alexa():
             pywhatkit.playonyt(song)
         elif 'time' in command:
             time = datetime.datetime.now().strftime('%I:%M %p')
-            talk('It is currently '+time)
+            talk('It is currently ' + time)
         elif 'wikipedia' in command or 'who is' in command:
             talk('Give me one moment while I look it up')
             command = command.replace('wikipedia', '')
@@ -139,26 +140,28 @@ def run_alexa():
             talk('I will open that on your default browser')
             command = command.replace('open', '')
             resultados = []
-            for j in search(command, tld="co.in", num=1, stop=1, pause=2): 
+            for j in search(command, tld="co.in", num=1, stop=1, pause=2):
                 resultados.append(j)
             webbrowser.open_new_tab(resultados[0])
         elif 'search' in command and 'google' in command:
             talk("Sure, give me a second")
             command = command.replace('search', '')
             command = command.replace('google', '')
-            command = re.sub(r"\bfor\b",'', command)
+            command = re.sub(r"\bfor\b", '', command)
             pywhatkit.search(command)
         elif 'send' in command and 'on whats' in command:
-            command = command.replace('send','')
+            command = command.replace('send', '')
             mensagem = command.replace('on whats', '')
             talk("Who should I send to")
             command = take_command()
             talk("Might not be the best idea, but ok")
             if 'lucas' in command:
-                threadNova = threading.Thread(target=mandar_mensagem_whats, args=("HERE GOES WHATSAPP NUMBER", mensagem))
+                threadNova = threading.Thread(target=mandar_mensagem_whats,
+                                              args=("HERE GOES WHATSAPP NUMBER", mensagem))
                 threadNova.start()
             if 'leonardo' in command:
-                threadNova = threading.Thread(target=mandar_mensagem_whats, args=("NÃO DEIXAR OS NÚMEROS NA HORA DE PUBLICAR", mensagem))
+                threadNova = threading.Thread(target=mandar_mensagem_whats,
+                                              args=("NÃO DEIXAR OS NÚMEROS NA HORA DE PUBLICAR", mensagem))
                 threadNova.start()
             if 'adriana' in command:
                 threadNova = threading.Thread(target=mandar_mensagem_whats, args=("WHATS NUMBER", mensagem))
@@ -174,7 +177,7 @@ def run_alexa():
                 while codAberto == None:
                     codAberto = pyautogui.locateOnScreen('cod.png')
                 botaoUpdate = pyautogui.locateOnScreen('update_button_cod.png')
-                if(botaoUpdate != None):
+                if (botaoUpdate != None):
                     pyautogui.click(botaoUpdate)
                     talk("updating")
                 else:
@@ -188,7 +191,7 @@ def run_alexa():
             pywhatkit.playonyt(song)
         elif 'horas' in command:
             time = datetime.datetime.now().strftime('%H:%M')
-            talk('Agora são '+time)
+            talk('Agora são ' + time)
         elif 'wikipédia' in command or 'quem é' in command:
             talk("Deixa eu descobrir que eu te conto")
             wikipedia.set_lang('pt')
@@ -211,17 +214,17 @@ def run_alexa():
             command = command.replace('abra o site', '')
             command = command.replace('abrir o site', '')
             resultados = []
-            for j in search(command, tld="co.in", num=1, stop=1, pause=2): 
+            for j in search(command, tld="co.in", num=1, stop=1, pause=2):
                 resultados.append(j)
             webbrowser.open_new_tab(resultados[0])
         elif 'procura' in command and 'google' in command:
             talk('procurando')
             command = command.replace('procura', '')
             command = command.replace('google', '')
-            command = re.sub(r"\bno\b",'', command)
+            command = re.sub(r"\bno\b", '', command)
             pywhatkit.search(command)
         elif 'manda' in command and 'no whats' in command:
-            command = command.replace('manda','')
+            command = command.replace('manda', '')
             mensagem = command.replace('no whats', '')
             talk("Para quem")
             command = take_command()
@@ -236,7 +239,7 @@ def run_alexa():
                 threadNova.start()
         elif 'iniciar' in command:
             command = command.replace("iniciar ", "")
-            talk("Tentando abrir o programa "+command)
+            talk("Tentando abrir o programa " + command)
             abre_programa(command)
         elif 'atualiza' in command:
             if 'call of duty' in command:
@@ -246,22 +249,24 @@ def run_alexa():
                 while codAberto == None:
                     codAberto = pyautogui.locateOnScreen('cod.png')
                 botaoUpdate = pyautogui.locateOnScreen('update_button_cod.png')
-                if(botaoUpdate != None):
+                if (botaoUpdate != None):
                     pyautogui.click(botaoUpdate)
                     talk("atualizando")
                 else:
                     talk('jogo já atualizado')
-        elif 'fechar' in command:#ainda não funciona 100%
-            #fecha a maior janela que também possui o X branco/cinza, precisa de mais imagens para verificação
-            #consegue fechar o app da blizzard e o visual studio code por enquanto
+        elif 'fechar' in command:  # ainda não funciona 100%
+            # fecha a maior janela que também possui o X branco/cinza, precisa de mais imagens para verificação
+            # consegue fechar o app da blizzard e o visual studio code por enquanto
             pyautogui.click(pyautogui.locateCenterOnScreen('X.png', confidence=.55))
         else:
             talk('Eu não entendi, será que você poderia repetir?')
             run_alexa()
 
+
 def talk(text):
     engine.say(text)
     engine.runAndWait()
+
 
 def controle_teclado():
     """
@@ -272,6 +277,7 @@ def controle_teclado():
     encerrado = ''
     while encerrado != 'kill':
         encerrado = input()
+
 
 def loop_assistente():
     global encerrarPrograma, killPrograma
@@ -286,10 +292,11 @@ def loop_assistente():
 def mandar_mensagem_whats(pessoa, mensagem):
     timeHora = datetime.datetime.now().hour
     timeMin = datetime.datetime.now().minute
-    pywhatkit.sendwhatmsg(pessoa, mensagem, timeHora, timeMin+1, wait_time = 10)
+    pywhatkit.sendwhatmsg(pessoa, mensagem, timeHora, timeMin + 1, wait_time=10)
 
-#threads para poder usar o teclado ao mesmo tempo que utiliza o mic para reconhecer comandos
-#thread1 = threading.Thread(target=controle_teclado, args=())
-#thread1.start()
-#detect_language()
+
+# threads para poder usar o teclado ao mesmo tempo que utiliza o mic para reconhecer comandos
+# thread1 = threading.Thread(target=controle_teclado, args=())
+# thread1.start()
+# detect_language()
 loop_assistente()
